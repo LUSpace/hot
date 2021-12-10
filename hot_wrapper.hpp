@@ -1,6 +1,6 @@
 #pragma once
-#include "./libs/hot/libs/hot/rowex/include/hot/rowex/HOTRowex.hpp"
-#include "./libs/hot/libs/idx/content-helpers/include/src/contenthelpers/PairPointerKeyExtractor.hpp"
+#include "./libs/hot/rowex/include/hot/rowex/HOTRowex.hpp"
+#include "./libs/idx/content-helpers/include/src/contenthelpers/PairPointerKeyExtractor.hpp"
 #include "tree.h"
 #include <map>
 // used to define the interface of all benchmarking trees
