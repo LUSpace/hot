@@ -33,7 +33,7 @@ public:
       return my_tree->insert(val);
     } else {
       // LOG_FATAL("The key must be string key in HOT!");
-      std::cour << "The key must be string key in HOT!" << std::endl;
+      std::cout << "The key must be string key in HOT!" << std::endl;
       exit(-1);
     }
   }
@@ -51,7 +51,7 @@ public:
       }
     } else {
       // LOG_FATAL("The key must be string key in HOT!");
-      std::cour << "The key must be string key in HOT!" << std::endl;
+      std::cout << "The key must be string key in HOT!" << std::endl;
       exit(-1);
     }
   }
