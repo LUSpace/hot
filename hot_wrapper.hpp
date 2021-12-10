@@ -17,7 +17,7 @@ public:
 
   void bulk_load(const V bulk_arr[], int num) {
     for (int i = 0; i < num; ++i) {
-      char fixed_string_key[257];
+      char fixed_string_key[256] = {0};
       memcpy(fixed_string_key, bulk_arr[i].first->key,
              bulk_arr[i].first->length);
       auto val =
@@ -28,7 +28,7 @@ public:
 
   bool insert(const T &key, const P &payload) {
     if constexpr (std::is_pointer_v<T>) {
-      char fixed_string_key[257];
+      char fixed_string_key[256] = {0};
       memcpy(fixed_string_key, key->key, key->length);
       auto val = new std::pair<const char *, P>(fixed_string_key, payload);
       return my_tree->insert(val);
@@ -41,7 +41,7 @@ public:
 
   bool search(const T &key, P *payload) const {
     if constexpr (std::is_pointer_v<T>) {
-      char fixed_string_key[257];
+      char fixed_string_key[256] = {0};
       memcpy(fixed_string_key, key->key, key->length);
       auto result = my_tree->lookup(fixed_string_key);
       if (result.mIsValid) {
