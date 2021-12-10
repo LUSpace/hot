@@ -16,6 +16,13 @@ public:
   }
 
   void bulk_load(const V bulk_arr[], int num) {
+    char path[1024];
+    for (int i = 0; i < 10; ++i) {
+      memcpy(path, bulk_arr[i].first->key, bulk_arr[i].first->length);
+      path[bulk_arr[i].first->length] = '\0';
+      printf("%s\n", path);
+    }
+
     for (int i = 0; i < num; ++i) {
       char fixed_string_key[256] = {0};
       memcpy(fixed_string_key, bulk_arr[i].first->key,
@@ -41,6 +48,11 @@ public:
 
   bool search(const T &key, P *payload) const {
     if constexpr (std::is_pointer_v<T>) {
+      char path[1024];
+      memcpy(path, key->key, key->length);
+      path[key->length] = '\0';
+      printf("%s\n", path);
+
       char fixed_string_key[256] = {0};
       memcpy(fixed_string_key, key->key, key->length);
       auto result = my_tree->lookup(fixed_string_key);
