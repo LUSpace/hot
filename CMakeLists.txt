@@ -61,10 +61,10 @@ ENABLE_TESTING()
 
 ADD_CUSTOM_TARGET(check COMMAND ${CMAKE_CTEST_COMMAND})
 
-add_subdirectory(third-party/boost-cmake)
+#add_subdirectory(third-party/boost-cmake)
 
 ADD_SUBDIRECTORY(apps)
 ADD_SUBDIRECTORY(libs)
-ADD_SUBDIRECTORY(tests)
+#ADD_SUBDIRECTORY(tests)
 
 add_library(hot_wrapper SHARED hot_wrapper.cpp)
