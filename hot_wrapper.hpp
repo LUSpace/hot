@@ -32,7 +32,9 @@ public:
       auto val = new std::pair<const char *, P>(fixed_string_key, payload);
       return my_tree->insert(val);
     } else {
-      LOG_FATAL("The key must be string key in HOT!");
+      // LOG_FATAL("The key must be string key in HOT!");
+      std::cour << "The key must be string key in HOT!" << std::endl;
+      exit(-1);
     }
   }
 
@@ -48,7 +50,9 @@ public:
         return false;
       }
     } else {
-      LOG_FATAL("The key must be string key in HOT!");
+      // LOG_FATAL("The key must be string key in HOT!");
+      std::cour << "The key must be string key in HOT!" << std::endl;
+      exit(-1);
     }
   }
 
