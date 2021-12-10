@@ -1,7 +1,7 @@
 #pragma once
-#include "./libs/hot/rowex/include/hot/rowex/HOTRowex.hpp"
-#include "./libs/idx/content-helpers/include/src/contenthelpers/PairPointerKeyExtractor.hpp"
 #include "tree.h"
+#include <hot/rowex/HOTRowex.hpp>
+#include <idx/contenthelpers/PairPointerKeyExtractor.hpp>
 #include <map>
 // used to define the interface of all benchmarking trees
 template <class T, class P> class hot_wrapper : public Tree<T, P> {
