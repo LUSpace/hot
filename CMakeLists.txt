@@ -68,3 +68,4 @@ ADD_SUBDIRECTORY(libs)
 #ADD_SUBDIRECTORY(tests)
 
 add_library(hot_wrapper SHARED hot_wrapper.cpp)
+target_link_libraries(hot_wrapper hot-rowex-lib benchmark-helpers-lib content-helpers-lib)
