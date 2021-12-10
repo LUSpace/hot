@@ -1,4 +1,4 @@
-#include "hot_wrapper.h"
+#include "hot_wrapper.hpp"
 
 extern "C" void *create_tree() {
   return reinterpret_cast<void *>(new hot_wrapper<uint64_t, char *>());
