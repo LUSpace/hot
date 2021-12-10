@@ -11,7 +11,8 @@ public:
   hot_wrapper() {
     // create an instance of hot
     my_tree = new hot::rowex::HOTRowex<
-        std::pair<char *, P> *, idx::contenthelpers::PairPointerKeyExtractor>();
+        std::pair<const char *, P> *,
+        idx::contenthelpers::PairPointerKeyExtractor>();
   }
 
   void bulk_load(const V bulk_arr[], int num) {
