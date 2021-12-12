@@ -17,7 +17,7 @@ public:
 
   void bulk_load(const V bulk_arr[], int num) {
     for (int i = 0; i < num; ++i) {
-      char fixed_string_key[256] = {0};
+      char *fixed_string_key = new char[256]();
       memcpy(fixed_string_key, bulk_arr[i].first->key,
              bulk_arr[i].first->length);
       fixed_string_key[bulk_arr[i].first->length] = '\0';
@@ -30,7 +30,7 @@ public:
 
   bool insert(const T &key, const P &payload) {
     if constexpr (std::is_pointer_v<T>) {
-      char fixed_string_key[256] = {0};
+      char *fixed_string_key = new char[256]();
       memcpy(fixed_string_key, key->key, key->length);
       fixed_string_key[key->length] = '\0';
       auto val = new std::pair<const char *, P>(fixed_string_key, payload);
