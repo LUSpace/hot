@@ -21,7 +21,6 @@ public:
       memcpy(fixed_string_key, bulk_arr[i].first->key,
              bulk_arr[i].first->length);
       fixed_string_key[bulk_arr[i].first->length] = '\0';
-      printf("%s\n", fixed_string_key);
       auto val =
           new std::pair<const char *, P>(fixed_string_key, bulk_arr[i].second);
       my_tree->insert(val);
@@ -47,7 +46,6 @@ public:
       char fixed_string_key[256] = {0};
       memcpy(fixed_string_key, key->key, key->length);
       fixed_string_key[key->length] = '\0';
-      printf("%s\n", fixed_string_key);
       auto result = my_tree->lookup(fixed_string_key);
       if (result.mIsValid) {
         *payload = result.mValue->second;
