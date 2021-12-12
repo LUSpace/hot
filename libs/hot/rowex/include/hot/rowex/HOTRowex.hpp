@@ -77,7 +77,6 @@ HOTRowex<ValueType, KeyExtractor>::lookup(
       idx::contenthelpers::toBigEndianByteOrder(key));
   uint8_t const *byteKey =
       idx::contenthelpers::interpretAsByteArray(fixedSizeKey);
-  printf("My search key : %s\n", byteKey);
 
   HOTRowexChildPointer current = mRoot;
   while (!current.isLeaf()) {
@@ -85,7 +84,6 @@ HOTRowex<ValueType, KeyExtractor>::lookup(
   }
   ValueType const &value =
       idx::contenthelpers::tidToValue<ValueType>(current.getTid());
-  printf("Searched value : %s\n", extractKey(value));
   return {idx::contenthelpers::contentEquals(extractKey(value), key), value};
 }
 
@@ -118,7 +116,6 @@ HOTRowex<ValueType, KeyExtractor>::insertGuarded(ValueType const &value) {
       idx::contenthelpers::toBigEndianByteOrder(extractKey(value)));
   uint8_t const *keyBytes =
       idx::contenthelpers::interpretAsByteArray(fixedSizeKey);
-  printf("Insert key: %s\n", keyBytes);
 
   while (!insertionResult.mIsValid) {
     // This temporary variable is important to prevent race conditions, which
