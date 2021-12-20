@@ -15,7 +15,7 @@ public:
 
   bool insert(const char *key, size_t key_sz, const char *value,
               size_t value_sz) override {
-    char *payload = const_cast<char *>(*reinterpret_cast<const char **>(value));
+    char *payload = *reinterpret_cast<char **>(const_cast<char *>(value));
     char *fixed_string_key = new char[256]();
     memcpy(fixed_string_key, key, key_sz);
     fixed_string_key[key_sz] = '\0';
