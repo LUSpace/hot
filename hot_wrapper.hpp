@@ -9,18 +9,17 @@ public:
   hot_wrapper() {
     // create an instance of hot
     my_tree = new hot::rowex::HOTRowex<
-        std::pair<const char *, const char *> *,
+        std::pair<const char *, char *> *,
         idx::contenthelpers::PairPointerKeyExtractor>();
   }
 
   bool insert(const char *key, size_t key_sz, const char *value,
               size_t value_sz) override {
-    char *payload = *reinterpret_cast<char **>(value);
+    char *payload = *reinterpret_cast<const char **>(value);
     char *fixed_string_key = new char[256]();
     memcpy(fixed_string_key, key, key_sz);
     fixed_string_key[key_sz] = '\0';
-    auto val =
-        new std::pair<const char *, const char *>(fixed_string_key, payload);
+    auto val = new std::pair<const char *, char *>(fixed_string_key, payload);
     return my_tree->insert(val);
   }
 
