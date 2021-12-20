@@ -1,75 +1,51 @@
 #pragma once
-#include "tree.h"
+#include "tree_api.h"
 #include <hot/rowex/HOTRowex.hpp>
 #include <idx/contenthelpers/PairPointerKeyExtractor.hpp>
 #include <map>
 // used to define the interface of all benchmarking trees
-template <class T, class P> class hot_wrapper : public Tree<T, P> {
+template <class T, class P> class hot_wrapper : tree_api {
 public:
-  typedef std::pair<T, P> V;
-
   hot_wrapper() {
     // create an instance of hot
     my_tree = new hot::rowex::HOTRowex<
-        std::pair<const char *, P> *,
+        std::pair<const char *, const char *> *,
         idx::contenthelpers::PairPointerKeyExtractor>();
   }
 
-  void bulk_load(const V bulk_arr[], int num) {
-    for (int i = 0; i < num; ++i) {
-      char *fixed_string_key = new char[256]();
-      memcpy(fixed_string_key, bulk_arr[i].first->key,
-             bulk_arr[i].first->length);
-      fixed_string_key[bulk_arr[i].first->length] = '\0';
-      auto val =
-          new std::pair<const char *, P>(fixed_string_key, bulk_arr[i].second);
-      my_tree->insert(val);
-    }
+  bool insert(const char *key, size_t key_sz, const char *value,
+              size_t value_sz) override {
+    char *payload = *reinterpret_cast<char **>(value);
+    char *fixed_string_key = new char[256]();
+    memcpy(fixed_string_key, key, key_sz);
+    fixed_string_key[key_sz] = '\0';
+    auto val =
+        new std::pair<const char *, const char *>(fixed_string_key, payload);
+    return my_tree->insert(val);
   }
 
-  bool insert(const T &key, const P &payload) {
-    if constexpr (std::is_pointer_v<T>) {
-      char *fixed_string_key = new char[256]();
-      memcpy(fixed_string_key, key->key, key->length);
-      fixed_string_key[key->length] = '\0';
-      auto val = new std::pair<const char *, P>(fixed_string_key, payload);
-      return my_tree->insert(val);
+  bool find(const char *key, size_t sz, char *value_out) override {
+    char fixed_string_key[256] = {0};
+    memcpy(fixed_string_key, key, sz);
+    fixed_string_key[sz] = '\0';
+    auto result = my_tree->lookup(fixed_string_key);
+    if (result.mIsValid) {
+      memcpy(value_out, &(result.mValue->second), sizeof(uint64_t));
+      return true;
     } else {
-      // LOG_FATAL("The key must be string key in HOT!");
-      std::cout << "The key must be string key in HOT!" << std::endl;
-      exit(-1);
+      return false;
     }
   }
 
-  bool search(const T &key, P *payload) const {
-    if constexpr (std::is_pointer_v<T>) {
-      char fixed_string_key[256] = {0};
-      memcpy(fixed_string_key, key->key, key->length);
-      fixed_string_key[key->length] = '\0';
-      auto result = my_tree->lookup(fixed_string_key);
-      if (result.mIsValid) {
-        *payload = result.mValue->second;
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      // LOG_FATAL("The key must be string key in HOT!");
-      std::cout << "The key must be string key in HOT!" << std::endl;
-      exit(-1);
-    }
+  bool update(const char *key, size_t key_sz, const char *value,
+              size_t value_sz) override {
+    return true;
   }
 
-  // 0 means no erase, 1 means erase 1
-  bool erase(const T &key) { return false; }
+  bool remove(const char *key, size_t key_sz) override { return true; }
 
-  bool update(const T &key, const P &payload) { return false; }
-
-  void print_min_max() {}
-
-  void get_depth_info() {}
-
-  int range_scan_by_size(const T &key, uint32_t to_scan, V *&result = nullptr) {
+  int scan(const char *key, size_t key_sz, int scan_sz,
+           char *&values_out) override {
     return 0;
   }
 
