@@ -4,7 +4,7 @@
 #include <idx/contenthelpers/PairPointerKeyExtractor.hpp>
 #include <map>
 // used to define the interface of all benchmarking trees
-class hot_wrapper : tree_api {
+class hot_wrapper : public tree_api {
 public:
   hot_wrapper() {
     // create an instance of hot
